@@ -8,4 +8,5 @@ rust-version = "1.56.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+bitness = "0.4.0"
 raw-cpuid = { git = "https://github.com/HiraokaTakuya/rust-cpuid.git", version = "10.2.0" }

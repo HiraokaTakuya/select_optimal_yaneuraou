@@ -43,6 +43,13 @@ impl Target {
 
 impl std::convert::From<raw_cpuid::CpuId> for Target {
     fn from(cpuid: raw_cpuid::CpuId) -> Self {
+        match bitness::os_bitness().expect("failed to get OS bitness") {
+            bitness::Bitness::X86_32 => {
+                return Self::NoSse;
+            }
+            bitness::Bitness::X86_64 => {}
+            bitness::Bitness::Unknown => panic!("unknown OS bitness"),
+        }
         match cpuid.get_feature_info() {
             None => Self::NoSse,
             Some(fi) => {
