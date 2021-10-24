@@ -1,5 +1,6 @@
 [package]
 name = "select_optimal_yaneuraou"
+authors = ["HiraokaTakuya <hiraoka64@gmail.com>"]
 version = "1.0.0"
 edition = "2021"
 rust-version = "1.56.0"
