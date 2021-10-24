@@ -8,6 +8,7 @@ fn is_zen3(fi: &raw_cpuid::FeatureInfo) -> bool {
     fi.family_id() == 0x19
 }
 
+#[derive(Clone, Copy)]
 enum Target {
     Avx2,
     Avx512,
@@ -43,30 +44,30 @@ impl Target {
 impl std::convert::From<raw_cpuid::CpuId> for Target {
     fn from(cpuid: raw_cpuid::CpuId) -> Self {
         match cpuid.get_feature_info() {
-            None => Target::NoSse,
+            None => Self::NoSse,
             Some(fi) => {
                 if is_zen3(&fi) {
-                    Target::Zen3
+                    Self::Zen3
                 } else if is_zen2(&fi) {
-                    Target::Zen2
+                    Self::Zen2
                 } else if is_zen1(&fi) {
-                    Target::Zen1
+                    Self::Zen1
                 } else {
                     match cpuid.get_extended_feature_info() {
-                        Some(efi) if efi.has_avx512vnni() => Target::Avx512Vnni,
-                        Some(efi) if efi.has_avx512f() => Target::Avx512,
-                        Some(efi) if efi.has_bmi2() => Target::Avx2,
+                        Some(efi) if efi.has_avx512vnni() => Self::Avx512Vnni,
+                        Some(efi) if efi.has_avx512f() => Self::Avx512,
+                        Some(efi) if efi.has_bmi2() => Self::Avx2,
                         Some(_) | None => {
                             if fi.has_sse42() {
-                                Target::Sse42
+                                Self::Sse42
                             } else if fi.has_sse41() {
-                                Target::Sse41
+                                Self::Sse41
                             } else if fi.has_ssse3() {
-                                Target::Ssse3
+                                Self::Ssse3
                             } else if fi.has_sse2() {
-                                Target::Sse2
+                                Self::Sse2
                             } else {
-                                Target::NoSse
+                                Self::NoSse
                             }
                         }
                     }
