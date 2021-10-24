@@ -69,7 +69,7 @@ dependencies = [
 
 [[package]]
 name = "select_optimal_yaneuraou"
-version = "1.0.1"
+version = "2.0.0"
 dependencies = [
  "bitness",
  "raw-cpuid",
